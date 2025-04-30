@@ -1,103 +1,91 @@
+"use client";
+
 import Image from "next/image";
+import { ConnectButton } from "@rainbow-me/rainbowkit";
+import { useAccount, useReadContract } from "wagmi";
+import PDFViewer from "@/components/PDFViewer";
+
+const NFT_CONTRACT = "0xb092a63840b1b319d40ee59096fb8b3dd708d1b6";
+const TOKEN_ID = 1;
+
+const erc1155Abi = [
+  {
+    constant: true,
+    inputs: [
+      { name: "account", type: "address" },
+      { name: "id", type: "uint256" },
+    ],
+    name: "balanceOf",
+    outputs: [{ name: "", type: "uint256" }],
+    stateMutability: "view",
+    type: "function",
+  },
+];
 
 export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+  const { address, isConnected } = useAccount();
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
+  const { data: balance, isLoading } = useReadContract({
+    address: NFT_CONTRACT,
+    abi: erc1155Abi,
+    functionName: "balanceOf",
+    args: [address ?? "0x", BigInt(TOKEN_ID)],
+    chainId: 8453, // Base Mainnet
+    query: {
+      enabled: Boolean(address),
+    },
+  });
+
+  const ownsNFT = isConnected && balance && Number(balance) > 0;
+
+  return (
+    <div className="min-h-screen pt-[80px] flex flex-col items-center justify-center px-4 pb-10 pt-10">
+      <div className="max-w-full max-h-[calc(100vh-80px-64px)]">
+        <Image
+          src="/balance.jpg"
+          alt="Balance"
+          width={600}
+          height={600}
+          className="object-contain"
+        />
+      </div>
+
+      <div className="text-2xl italic font-bold text-white text-center space-y-4 mt-20">
+        <p>Written by Sister Tibebwa</p>
+        <p>
+          Cover illustration by{" "}
           <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
+            href="https://x.com/Artoftas"
             target="_blank"
             rel="noopener noreferrer"
+            className="underline"
           >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
+            artoftas
           </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+        </p>
+      </div>
+
+      <div className="text-xl text-center text-white space-y-4 mt-8">
+        <p className="max-w-[600px]">In order to read this unique work, you need to purchase an NFT. This costs $13. You'll need a <a href="https://www.alchemy.com/overviews/web3-wallets" target="_blank" className="underline font-bold">web3 wallet</a>.</p>
+      </div>
+
+      <div className="mt-10 flex flex-col items-center space-y-6 w-full max-w-7xl">
+        <ConnectButton />
+
+        {isConnected && (
+          <>
+            {isLoading ? (
+              <p className="text-lg">Checking NFT ownership...</p>
+            ) : ownsNFT ? (
+              <div className="w-full mt-10 px-4">
+                <PDFViewer fileUrl="/wisdom/hekima.pdf" />
+              </div>
+            ) : (
+              <p className="text-lg">You do not own the required NFT yet.</p>
+            )}
+          </>
+        )}
+      </div>
     </div>
   );
 }
