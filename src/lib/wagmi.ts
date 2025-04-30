@@ -1,8 +1,8 @@
 import { getDefaultConfig } from '@rainbow-me/rainbowkit';
-import { base } from 'wagmi/chains';
+import { optimism } from 'wagmi/chains';
 
 export const config = getDefaultConfig({
-  appName: 'Hekima Wisdom',
-  projectId: '888',
-  chains: [base],
+  appName: 'Aether, Earth, & Art',
+  projectId: '777',
+  chains: [optimism],
 });

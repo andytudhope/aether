@@ -16,8 +16,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Hekima Wisdom",
-  description: "Love and light and peace and darkness: all in great balance",
+  title: "Aether, Earth, & Art",
+  description: "Regenerative art that funds dune afforestation",
 };
 
 export default function RootLayout({
@@ -28,7 +28,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-[#13101B]`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-[#EEECDF]`}
       >
         <Navbar />
         <Providers>{children}</Providers>
