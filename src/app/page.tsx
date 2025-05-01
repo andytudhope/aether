@@ -94,7 +94,7 @@ export default function Home() {
           alt="Cover"
           fill
           className="object-cover z-0"
-          priority
+          unoptimized
         />
         <div className="absolute inset-0 flex flex-col justify-center items-center text-center px-4 z-10">
           <h1 className="text-6xl font-bold text-white drop-shadow-lg">
@@ -123,6 +123,7 @@ export default function Home() {
               width={800}
               height={600}
               className="w-full h-auto rounded shadow"
+              unoptimized
             />
           </div>
 
@@ -159,6 +160,7 @@ export default function Home() {
               width={900}
               height={600}
               className="w-full max-w-4xl h-auto"
+              unoptimized
             />
           </div>
         </div>
@@ -285,6 +287,7 @@ export default function Home() {
             width={600}
             height={500}
             className="w-full h-auto rounded shadow"
+            unoptimized
           />
           </div>
           <div className="md:w-1/2 w-full mb-10 md:mb-0">
@@ -294,6 +297,7 @@ export default function Home() {
             width={600}
             height={500}
             className="w-full h-auto rounded shadow"
+            unoptimized
           />
           </div>
           </div>
